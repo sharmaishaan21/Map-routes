@@ -1,0 +1,90 @@
+@import url('https://fonts.googleapis.com/css2?family=Work+Sans:wght@300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Work+Sans:wght@300&display=swap');
+
+.header{
+  height: 13.2vh;
+}
+
+.imageContainer{
+  padding-left: 4rem;
+  padding-top: 0.2rem;
+}
+
+.body{
+  height: 86.8vh;
+  background-color: azure;
+}
+
+.heading{
+  font-family: 'Work Sans';
+font-style: normal;
+font-weight: 500;
+font-size: 17px;
+line-height: 120%;
+text-align: center;
+color: #1B31A8;
+}
+
+.headingContent{
+  padding-top: 1.5rem;
+}
+
+.mapContainer{
+  display: flex;
+}
+
+.location{
+  height: 100%;
+  width: 50%;
+}
+
+.innerBox{
+  width: 80%;
+  margin-top: 10%;
+  margin-left: 20%;
+}
+
+.mapBox{
+  height: 20rem;
+  width: 24rem;
+  margin-top: 1.5rem;
+  margin-left: 8rem;
+}
+
+.map-container {
+  height: 100%;
+  width: 100%;
+}
+
+.distanceContainer{
+  display: flex;
+  justify-content: space-between;
+  height: 80%;
+  margin-top: 10%;
+  width: 90%;
+  margin-left: 5%;
+}
+
+.distance{
+  font-family: 'IBM Plex Sans';
+font-style: normal;
+font-weight: 700;
+font-size: 18px;
+line-height: 120%;
+}
+
+.unit{
+  font-family: 'IBM Plex Sans';
+font-style: normal;
+font-weight: 700;
+font-size: 22px;
+line-height: 120%;
+text-align: right;
+color: #0079FF;
+}
+
+.addButton{
+  width: 100%;
+  display: flex;
+  justify-content: right;
+}
