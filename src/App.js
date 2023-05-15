@@ -1,5 +1,8 @@
 import logo from "./Graviti.svg";
 import dot from "./Ellipse.png";
+import greenDot from "./Group 1.png";
+import dest from "./Group 2.svg";
+import addButton from "./Group 3.svg";
 
 import {
   GoogleMap,
@@ -23,7 +26,11 @@ import {
   SkeletonText,
   Text,
   HStack,
+  InputGroup,
+  InputLeftElement,
 } from "@chakra-ui/react";
+
+import { AddIcon } from "@chakra-ui/icons";
 
 function App() {
   const { isLoaded } = useJsApiLoader({
@@ -75,14 +82,8 @@ function App() {
     }
     // eslint-disable-next-line no-undef
     const directionsService = new google.maps.DirectionsService();
-    const results = await directionsService.route({
+    var directionsRequest = {
       origin: originRef.current?.value,
-      // waypoints: [
-      //   {
-      //     location: stop.current?.value,
-      //     stopover: true,
-      //   },
-      // ],
       waypoints: references.slice(0, currentIndex + 1).map((ref) => {
         return {
           location: ref.current?.value,
@@ -90,29 +91,25 @@ function App() {
         };
       }),
       destination: destiantionRef.current?.value,
-      // eslint-disable-next-line no-undef
-      travelMode: google.maps.TravelMode.DRIVING,
-    });
-    setDirectionsResponse(results);
-    setDistance(
-      results.routes.reduce((acc, curr) => {
-        console.log(curr.legs[0].distance);
-        return acc + parseInt(curr.legs[0].distance.value / 1000);
-      }, 0)
+      // travelMode: google.maps.TravelMode.DRIVING,
+      travelMode: "DRIVING",
+    };
+    var totalDistance = 0;
+    const results = await directionsService.route(
+      directionsRequest,
+      function (response, status) {
+        var distances = [];
+        for (var i = 0; i < response.routes[0].legs.length; i++) {
+          distances.push(response.routes[0].legs[i].distance);
+        }
+        distances.map((dis) => {
+          totalDistance = totalDistance + dis.value / 1000;
+        });
+        console.log(totalDistance);
+      }
     );
-    //setDuration(results.routes[0].legs[0].duration.text);
-  }
-
-  function clearRoute() {
-    setDirectionsResponse(null);
-    setDistance("");
-    setDuration("");
-    if (originRef.current) {
-      originRef.current.value = "";
-    }
-    if (destiantionRef.current) {
-      destiantionRef.current.value = "";
-    }
+    setDirectionsResponse(results);
+    setDistance(totalDistance);
   }
 
   const center = { lat: 28.6448, lng: 77.216721 };
@@ -137,12 +134,17 @@ function App() {
                   <VStack spacing={4}>
                     <Box flexGrow={1}>
                       <Autocomplete>
-                        <Input
-                          type="text"
-                          placeholder="Origin"
-                          ref={originRef}
-                          backgroundColor="white"
-                        />
+                        <InputGroup>
+                          <InputLeftElement pointerEvents="none">
+                            <img src={greenDot} alt="" />{" "}
+                          </InputLeftElement>
+                          <Input
+                            type="text"
+                            placeholder="Origin"
+                            ref={originRef}
+                            backgroundColor="white"
+                          />
+                        </InputGroup>
                       </Autocomplete>
                     </Box>
 
@@ -150,12 +152,17 @@ function App() {
                       return (
                         <Box flexGrow={1}>
                           <Autocomplete>
-                            <Input
-                              type="text"
-                              placeholder="Stop"
-                              ref={ref}
-                              backgroundColor="white"
-                            />
+                            <InputGroup>
+                              <InputLeftElement pointerEvents="none">
+                                <img src={dot} alt="" />{" "}
+                              </InputLeftElement>
+                              <Input
+                                type="text"
+                                placeholder="Stop"
+                                ref={ref}
+                                backgroundColor="white"
+                              />
+                            </InputGroup>
                           </Autocomplete>
                         </Box>
                       );
@@ -165,7 +172,7 @@ function App() {
                         backgroundColor="azure"
                         onClick={() => addReference()}
                       >
-                        <img src={dot} alt="" />{" "}
+                        <img src={addButton} alt="" />
                         <div style={{ marginLeft: "5px" }}></div> Add location
                       </Button>
                     </div>
@@ -181,18 +188,23 @@ function App() {
                     </Box> */}
                     <Box flexGrow={1}>
                       <Autocomplete>
-                        <Input
-                          type="text"
-                          placeholder="Destination"
-                          backgroundColor="white"
-                          ref={destiantionRef}
-                        />
+                        <InputGroup>
+                          <InputLeftElement pointerEvents="none">
+                            <img src={dest} alt="" />{" "}
+                          </InputLeftElement>
+                          <Input
+                            type="text"
+                            placeholder="Destination"
+                            backgroundColor="white"
+                            ref={destiantionRef}
+                          />
+                        </InputGroup>
                       </Autocomplete>
                     </Box>
                   </VStack>
                   <ButtonGroup>
                     <Button
-                      colorScheme="blue"
+                      className="calculateButton"
                       type="submit"
                       borderRadius="1.5rem"
                       onClick={calculateRoute}

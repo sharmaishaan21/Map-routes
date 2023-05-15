@@ -88,3 +88,8 @@ color: #0079FF;
   display: flex;
   justify-content: right;
 }
+
+.calculateButton{
+  background-color: #1B31A8 !important;
+
+color: white;}
